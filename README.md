@@ -1,1 +1,1 @@
-# WP_AJAX
+# WordPress 
