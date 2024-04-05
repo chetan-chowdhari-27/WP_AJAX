@@ -1,0 +1,43 @@
+<?php
+
+function custom_rewrite_rules() {
+    // Rule for locations
+        add_rewrite_rule(
+            '^locations/brand/([^/]+)/?$',
+            'index.php?pagename=locations&location-brand=$matches[1]',
+            'top'
+        );
+
+    // for pagination providers
+    // https://wordpress.stackexchange.com/questions/163141/add-rewrite-rule-working-fine-but-broken-for-pagination
+        add_rewrite_rule(
+            '^providers/brand/([^/]+)/page/([0-9]+)/?$',
+            'index.php?pagename=providers&provider-brand=$matches[1]-allergist&paged=$matches[2]',
+            'top'
+        );
+    
+    // Rule for providers
+        add_rewrite_rule(
+            '^providers/brand/([^/]+)/?$',
+            'index.php?pagename=providers&provider-brand=$matches[1]-allergist',
+            'top'
+        );
+}
+add_action('init', 'custom_rewrite_rules');
+
+function custom_rewrite_tags() {
+    add_rewrite_tag('%location-brand%', '([^&]+)');
+    add_rewrite_tag('%provider-brand%', '([^&]+)');
+}
+add_action('init', 'custom_rewrite_tags');
+
+
+// https://wordpress.stackexchange.com/questions/250837/understanding-add-rewrite-rule
+// for internal rewrites, param is set within the $wp_query query object, 
+
+function wpd_foo_get_provider_brand() {
+    if( false !== get_query_var( 'provider-brand' ) ){
+        $_GET['provider-brand'] = get_query_var( 'provider-brand' );
+    }
+}
+add_action( 'parse_query', 'wpd_foo_get_provider_brand' );   ?>
