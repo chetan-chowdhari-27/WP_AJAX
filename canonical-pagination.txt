@@ -1,0 +1,45 @@
+CODE :- 
+
+===================================================================================================
+===================================================================================================
+
+
+
+function custom_yoast_canonical_pagination($canonical) {
+    
+    if (is_paged()) {
+       
+        $current_page = get_query_var('paged') ? intval(get_query_var('paged')) : 1;
+        $url = get_pagenum_link(1); 
+        $pattern = '/\/page\/\d+\//';
+        $replacement = '/';
+        
+        $base_url = preg_replace($pattern, $replacement, $url);
+        
+        
+        $base_url = preg_replace('/\?.*/', '', $base_url);
+
+        
+        $canonical_url = trailingslashit($base_url) . 'page/'. $current_page . '/';
+
+        
+        return esc_url($canonical_url);
+    }
+
+   
+    return $canonical;
+}
+add_filter('wpseo_canonical', 'custom_yoast_canonical_pagination'); 
+
+===================================================================================================
+===================================================================================================
+
+
+
+Preview & Test :- 
+
+Done Ready for Your Review :- 
+view-source:https://elkmountaindev.wpenginepowered.com/crested-butte-vacation-blog/
+view-source:https://elkmountaindev.wpenginepowered.com/crested-butte-vacation-blog/page/2/?ds
+view-source:https://elkmountaindev.wpenginepowered.com/crested-butte-vacation-blog/page/3/?ds
+view-source:https://elkmountaindev.wpenginepowered.com/crested-butte-vacation-blog/page/4/?df
